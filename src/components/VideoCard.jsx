@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { formatDistanceToNow } from "date-fns";
-import VideoModal from "./VideoModal";
 import { useNavigate } from "react-router-dom";
 import { useI18n } from "../i18n.jsx";
+import { formatDistanceToNow } from "date-fns";
+import VideoModal from "./VideoModal";
 
 export default function VideoCard({ item }) {
   const [open, setOpen] = useState(false);
@@ -10,6 +10,7 @@ export default function VideoCard({ item }) {
   const { lang } = useI18n();
 
   const openVideo = () => {
+    if (!item.videoId) return;
     setOpen(true);
     navigate(`/${lang}/videos?v=${item.videoId}`, { replace: false });
   };
@@ -22,16 +23,15 @@ export default function VideoCard({ item }) {
   return (
     <>
       <article className="card" onClick={openVideo} style={{ cursor: "pointer" }}>
-        <div className="thumb" style={{ position: "relative" }}>
+        <div className="thumb">
           <img
             src={`https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}
             alt={item.title}
-            style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover" }}
+            loading="lazy"
           />
-          <div className="play-overlay">
-            ▶
-          </div>
+          <div className="play-overlay">▶</div>
         </div>
+
         <div className="content">
           <div className="title">{item.title}</div>
           <div className="meta">
@@ -42,11 +42,7 @@ export default function VideoCard({ item }) {
       </article>
 
       {open && (
-        <VideoModal
-          videoId={item.videoId}
-          title={item.title}
-          onClose={closeVideo}
-        />
+        <VideoModal key={item.videoId} videoId={item.videoId} title={item.title} onClose={closeVideo} />
       )}
     </>
   );

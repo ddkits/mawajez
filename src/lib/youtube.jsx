@@ -48,17 +48,20 @@ export function parseYouTube(xmlText) {
 }
 
 export function ytToVideoItem(item, source) {
-  const videoId = item.videoId ||
+  const videoId =
+    item.videoId ||
     (item.id ? item.id.replace("yt:video:", "") : null);
+
+  if (!videoId) return null; // ✅ skip empty entries
 
   const ts = item.published ? Date.parse(item.published) : Date.now();
 
   return {
-    id: videoId || `${source.channel_id}-${Math.random().toString(36).slice(2)}`,
-    title: item.title || "(untitled video)",
-    videoId,
+    id: videoId,                    // stable key
+    videoId,                        // used to open modal
+    title: item.title || "(untitled)",
     url: item.link || null,
-    channelId: source.channel_id,     // ✅ FIXED
+    channelId: source.channel_id,   // ✅ FIXED GROUPING
     channelName: source.name,
     publishedAt: isNaN(ts) ? Date.now() : ts,
   };
