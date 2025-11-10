@@ -24,21 +24,25 @@ export default function Videos() {
     })();
   }, [lang, cat]);
 
-  // ✅ Infinite scroll
-  useEffect(() => {
-    const el = loaderRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setVisible((v) => v + 12);
-        }
-      },
-      { rootMargin: "300px" }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+// ✅ Infinite scroll (attach again whenever videos change)
+useEffect(() => {
+  if (!videos) return; // wait until videos are loaded
+
+  const el = loaderRef.current;
+  if (!el) return;
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        setVisible((v) => v + 12);
+      }
+    },
+    { rootMargin: "400px" }
+  );
+
+  io.observe(el);
+  return () => io.disconnect();
+}, [videos]); // ✅ <-- key fix
 
   return (
     <section>
