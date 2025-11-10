@@ -8,11 +8,11 @@ import Videos from "./pages/Videos";
 import About from "./pages/About";
 import Article from "./pages/Article";
 import { I18nProvider } from "./i18n.jsx";
-import { HelmetProvider } from "react-helmet-async";
+import { loadTheme } from "./theme";
+loadTheme();
 
 export default function App() {
   return (
-    <HelmetProvider>
       <I18nProvider>
         <Header />
         <main className="container">
@@ -32,6 +32,5 @@ export default function App() {
         </main>
         <Footer />
       </I18nProvider>
-    </HelmetProvider>
   );
 }
