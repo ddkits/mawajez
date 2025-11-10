@@ -1,6 +1,6 @@
 import sources from '../data/sources'
 import { fetchRSS, parseRSS, rssToArticle } from './rss'
-import { fetchYouTubeFeed, parseYouTube, ytToVideoItem } from './youtube'
+import { fetchYouTubeFeed, parseYouTube, ytToVideoItem } from './youtube';
 
 export async function loadArticles(category='All', lang='en') {
   console.log("LOADING ARTICLES:", category, lang);
@@ -28,23 +28,30 @@ export async function loadArticles(category='All', lang='en') {
 }
 
 
-export async function loadVideos(category = "All", lang = "en") {
+export async function loadVideos(category='All', lang='en') {
   const list = sources[lang];
 
   const tasks = list
-    .filter(s => s.type === "youtube" && (category === "All" || s.category === category))
+    .filter(s => s.type === 'youtube' && (category === 'All' || s.category === category))
     .map(async (s) => {
       try {
         const xml = await fetchYouTubeFeed(s.channel_id);
+        if (!xml) return [];
+
         const parsed = parseYouTube(xml);
-        return parsed.slice(0, 20).map(p => ytToVideoItem(p, s));
+
+        return parsed
+          .map(p => ytToVideoItem(p, s))
+          .filter(Boolean); // ✅ removes null videos
+
       } catch {
         return [];
       }
     });
 
-  const out = (await Promise.all(tasks)).flat();
-  return out.sort((a, b) => b.publishedAt - a.publishedAt);
+  return (await Promise.all(tasks))
+    .flat()
+    .sort((a,b)=> b.publishedAt - a.publishedAt);
 }
 
 export function filterBySource(items, id) {
