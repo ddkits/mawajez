@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useI18n } from "../i18n.jsx";
 import { formatDistanceToNow } from "date-fns";
 import VideoModal from "./VideoModal";
+import { useNavigate } from "react-router-dom";
+import { useI18n } from "../i18n.jsx";
 
 export default function VideoCard({ item }) {
   const [open, setOpen] = useState(false);
@@ -10,7 +10,6 @@ export default function VideoCard({ item }) {
   const { lang } = useI18n();
 
   const openVideo = () => {
-    if (!item.videoId) return;
     setOpen(true);
     navigate(`/${lang}/videos?v=${item.videoId}`, { replace: false });
   };
@@ -23,15 +22,16 @@ export default function VideoCard({ item }) {
   return (
     <>
       <article className="card" onClick={openVideo} style={{ cursor: "pointer" }}>
-        <div className="thumb">
+        <div className="thumb" style={{ position: "relative" }}>
           <img
             src={`https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`}
             alt={item.title}
-            loading="lazy"
+            style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover" }}
           />
-          <div className="play-overlay">▶</div>
+          <div className="play-overlay">
+            ▶
+          </div>
         </div>
-
         <div className="content">
           <div className="title">{item.title}</div>
           <div className="meta">
