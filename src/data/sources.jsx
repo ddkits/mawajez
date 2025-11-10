@@ -60,7 +60,9 @@ ar: [
     { id: 'alarabiya', name: 'العربية', type: 'rss', category: 'World', url: 'https://www.alarabiya.net/.mrss/ar.xml?outputType=xml' },
     { id: 'skynews-ar', name: 'سكاي نيوز عربية', type: 'rss', category: 'World', url: 'https://www.skynewsarabia.com/web/rss' },
     { id: 'dw-ar', name: 'DW عربية', type: 'rss', category: 'World', url: 'https://www.dw.com/arabic/s-10507?maca=ara-rss-ar-all-welcome' },
-
+    { id: 'skynews-youtube', name: 'BBC News عربي', type: 'youtube', category: 'World', channel_id: 'UCelk6aHijZq-GJBBB9YpReA' },
+    { id: 'aljazeera-youtube', name: 'Aljazeera (YouTube)', type: 'youtube', category: 'World', channel_id: 'UCfiwzLy-8yKzIbsmZTzxDgw' },
+    { id: 'sky-alarabya-youtube', name: 'سكاي نيوز عربية', type: 'youtube', category: 'World', channel_id: 'UCIJXOvggjKtCagMfxvcCzAA' },
     // BUSINESS
     { id: 'cnn-ar-business', name: 'CNN اقتصاد', type: 'rss', category: 'Business', url: 'https://arabic.cnn.com/rss/money' },
     
