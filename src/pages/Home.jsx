@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Loader from '../components/Loader'
 import ArticleCard from '../components/ArticleCard'
-import sources from '../data/sources'
+import sources from '../data/sources.js'
 import { loadArticles } from '../lib/aggregators'
 import { useI18n } from '../i18n.jsx'
 import { Helmet } from "react-helmet-async";

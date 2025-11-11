@@ -1,0 +1,36 @@
+name: Update Sitemap Daily
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"     # Runs every 6 hours (you can change)
+  workflow_dispatch:         # Allow manual "Run workflow" in GitHub UI
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate sitemap
+        run: npm run generate:sitemap
+
+      - name: Commit changes
+        run: |
+          git config --local user.name "github-actions"
+          git config --local user.email "actions@github.com"
+          git add public/sitemap.xml
+          git diff-index --quiet HEAD || git commit -m "Auto-update sitemap"
+          git push
