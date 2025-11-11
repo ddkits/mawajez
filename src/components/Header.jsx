@@ -2,7 +2,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useI18n } from '../i18n.jsx'
 import "./header.css"
-import sources from '../data/sources'
+import sources from '../data/sources.js'
 
 export default function Header() {
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark')
