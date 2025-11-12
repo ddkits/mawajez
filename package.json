@@ -9,6 +9,7 @@
     "deploy": "gh-pages -d dist",
     "generate:indexes": "node scripts/generate-indexes.js",
     "generate:sitemap": "node scripts/generate-sitemap.js",
+    "generatedaily:sitemap": "node scripts/generate-sitemap.mjs",
     "update:sitemap": "npm run generate:indexes && npm run generate:sitemap"
   },
   "dependencies": {

@@ -24,8 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Generate sitemap
-        run: npm run generate:sitemap
+      - name: Generate daily sitemap
+        run: npm run generatedaily:sitemap
 
       - name: Commit changes
         run: |
