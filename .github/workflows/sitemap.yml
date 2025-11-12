@@ -2,8 +2,11 @@ name: Update Sitemap Daily
 
 on:
   schedule:
-    - cron: "0 */6 * * *"     # Runs every 6 hours (you can change)
-  workflow_dispatch:         # Allow manual "Run workflow" in GitHub UI
+    - cron: "0 */6 * * *"   # Runs every 6 hours
+  workflow_dispatch:         # Allow manual trigger in GitHub UI
+
+permissions:
+  contents: write            # Allow Actions to commit/push
 
 jobs:
   build:
@@ -11,27 +14,25 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Generate daily sitemap
         run: npm run generatedaily:sitemap
 
-      - name: Commit changes
+      - name: Commit sitemap changes
         run: |
           git config --local user.name "github-actions"
           git config --local user.email "actions@github.com"
-          git checkout -B sitemap-update
-          git add public/sitemap.xml
-          git diff-index --quiet HEAD || git commit -m "Auto-update sitemap"
-          git push -f origin sitemap-update
+          git add dist/sitemap.xml
+          git diff --quiet && echo "No sitemap changes to commit" || (git commit -m "Auto-update sitemap" && git push)
